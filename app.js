@@ -11,7 +11,7 @@ $(document).ready(function() {
         if(checkbox.is(':checked')){
             checkbox.prop("checked", false);
             if($('input:checkbox:checked').length > 0){
-                filterP();
+                filterProducts();
             }else{
                 resetForm();
 
@@ -26,7 +26,7 @@ $(document).ready(function() {
             //checkboxArray.push(value);
             //form.submit();
             //
-            filterP();
+            filterProducts();
         }
 
     });
@@ -72,46 +72,13 @@ function loadProducts(){
 }
 
 function resetForm() {
-
-    //alert('Reset Form');
-
-    //e.preventDefault();
+	
     $('input:checkbox').prop("checked", false);
     loadProducts();
-    /*
-    var url = 'products.json';
-    var a = {};
-    var itm = '';
-    $.getJSON(url, function (data) {
-        a = data;
-
-        $.each(a, function(idx, elem){
-
-            itm += '<li>';
-            itm += '<a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a>';
-            itm += '<h2><a href="#">'+elem.name+'</a></h2>';
-            itm += '<ul class="product-description">';
-            itm += '<li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li>';
-            itm += '<li><span>Storage: </span>'+elem.specs.storage+' GB</li>';
-            itm += '<li><span>OS: </span>'+elem.specs.os+'</li>';
-            itm += '<li><span>Camera: </span>'+elem.specs.camera+' Mpx</li>';
-            itm += '<li><span>Description: </span>'+elem.description+'</li>';
-            //itm += '';
-            itm += '</ul>';
-            itm += '<p class="product-price">£'+elem.price +'</p>';
-            //itm += '';
-            itm += '</li>';
-            //$('.products-list').append(itm);
-            // $('.products-list').append('<li><a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a><h2><a href="#">'+elem.name+'</a></h2><ul class="product-description"><li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li><li><span>Storage: </span>'+elem.specs.storage+' GB</li><li><span>OS: </span>'+elem.specs.os+'</li><li><span>Camera: </span>'+elem.specs.camera+' Mpx</li><li><span>Description: </span>'+elem.description+'</li></ul><p class="product-price">£'+elem.price +'</p></li>');
-        });
-        $('.products-list').html(itm);
-
-    });
-    */
 
 }
 
-function filterP() {
+function filterProducts() {
 
     var checked = $(".filter-criteria label input:checkbox:checked").map(function(){
         return $(this).val();
@@ -382,66 +349,6 @@ function filterbyCamera(){
             return n.specs.camera==='google';
         });
     });
-}
-
-function filterProducts(arr){
-
-    alert('Filter')
-
-    var url = 'products.json';
-    var a = {};
-    var itm = '';
-    if(arr.length==0)
-    {
-        $.getJSON(url, function (data) {
-            a = data;
-
-            $.each(a, function (idx, elem) {
-                itm += '<li>';
-                itm += '<a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a>';
-                itm += '<h2><a href="#">'+elem.name+'</a></h2>';
-                itm += '<ul class="product-description">';
-                itm += '<li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li>';
-                itm += '<li><span>Storage: </span>'+elem.specs.storage+' GB</li>';
-                itm += '<li><span>OS: </span>'+elem.specs.os+'</li>';
-                itm += '<li><span>Camera: </span>'+elem.specs.camera+' Mpx</li>';
-                itm += '<li><span>Description: </span>'+elem.description+'</li>';
-                //itm += '';
-                itm += '</ul>';
-                itm += '<p class="product-price">£'+elem.price +'</p>';
-                //itm += '';
-                itm += '</li>';
-
-            });
-        });
-    }
-    else{
-        $.getJSON(url, function (data) {
-            a = data;
-
-            $(arr).each(function (i, v) {
-                $.each(a, function (key, elem) {
-
-                    itm += '<li>';
-                    itm += '<a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a>';
-                    itm += '<h2><a href="#">'+elem.name+'</a></h2>';
-                    itm += '<ul class="product-description">';
-                    itm += '<li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li>';
-                    itm += '<li><span>Storage: </span>'+elem.specs.storage+' GB</li>';
-                    itm += '<li><span>OS: </span>'+elem.specs.os+'</li>';
-                    itm += '<li><span>Camera: </span>'+elem.specs.camera+' Mpx</li>';
-                    itm += '<li><span>Description: </span>'+elem.description+'</li>';
-                    //itm += '';
-                    itm += '</ul>';
-                    itm += '<p class="product-price">£'+elem.price +'</p>';
-                    //itm += '';
-                    itm += '</li>';
-                    //$('.products-list').append(itm);
-                });
-            });
-        });
-    }
-    $('.products-list').html(itm);
 }
 
 /*
