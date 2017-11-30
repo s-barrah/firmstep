@@ -31,41 +31,6 @@ $(document).ready(function() {
 
     });
 
-    $('.clear-filter').click(function(e) {
-
-        e.preventDefault();
-        $('input:checkbox').prop("checked", false);
-        var itm = '';
-        var url = 'products.json';
-        var a = {};
-
-        $.getJSON(url, function (data) {
-            a = data;
-
-            $.each(a, function(idx, elem){
-
-                itm += '<li>';
-                itm += '<a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a>';
-                itm += '<h2><a href="#">'+elem.name+'</a></h2>';
-                itm += '<ul class="product-description">';
-                itm += '<li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li>';
-                itm += '<li><span>Storage: </span>'+elem.specs.storage+' GB</li>';
-                itm += '<li><span>OS: </span>'+elem.specs.os+'</li>';
-                itm += '<li><span>Camera: </span>'+elem.specs.camera+' Mpx</li>';
-                itm += '<li><span>Description: </span>'+elem.description+'</li>';
-                //itm += '';
-                itm += '</ul>';
-                itm += '<p class="product-price">£'+elem.price +'</p>';
-                //itm += '';
-                itm += '</li>';
-
-                // $('.products-list').append('<li><a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a><h2><a href="#">'+elem.name+'</a></h2><ul class="product-description"><li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li><li><span>Storage: </span>'+elem.specs.storage+' GB</li><li><span>OS: </span>'+elem.specs.os+'</li><li><span>Camera: </span>'+elem.specs.camera+' Mpx</li><li><span>Description: </span>'+elem.description+'</li></ul><p class="product-price">£'+elem.price +'</p></li>');
-            });
-        });
-
-        $('.products-list').html(itm);
-
-    });
 
 
 
@@ -77,28 +42,31 @@ function loadProducts(){
 
     var url = 'products.json';
     var a = {};
+    var itm = '';
     $.getJSON(url, function (data) {
         a = data;
 
         $.each(a, function(idx, elem){
-            var itm = '';
-            itm += '<li>';
+
+            itm += '<li class="item">';
             itm += '<a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a>';
             itm += '<h2><a href="#">'+elem.name+'</a></h2>';
             itm += '<ul class="product-description">';
-            itm += '<li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li>';
-            itm += '<li><span>Storage: </span>'+elem.specs.storage+' GB</li>';
-            itm += '<li><span>OS: </span>'+elem.specs.os+'</li>';
-            itm += '<li><span>Camera: </span>'+elem.specs.camera+' Mpx</li>';
-            itm += '<li><span>Description: </span>'+elem.description+'</li>';
+            itm += '<li><span>Manufacturer: </span><span data-man="'+elem.specs.manufacturer+'">'+elem.specs.manufacturer+'</span></li>';
+            itm += '<li><span>Storage: </span><span data-storage="'+elem.specs.storage+'">'+elem.specs.storage+'</span> GB</li>';
+            itm += '<li><span>OS: </span><span data-os="'+elem.specs.os+'">'+elem.specs.os+'</span></li>';
+            itm += '<li><span>Camera: </span><span data-camera="'+elem.specs.camera+'">'+elem.specs.camera+'</span> Mpx</li>';
+            itm += '<li><span>Description: </span data-description="'+elem.description+'"><span>'+elem.description+'</span></li>';
             //itm += '';
             itm += '</ul>';
             itm += '<p class="product-price">£'+elem.price +'</p>';
             //itm += '';
             itm += '</li>';
-            $('.products-list').append(itm);
+
             // $('.products-list').append('<li><a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a><h2><a href="#">'+elem.name+'</a></h2><ul class="product-description"><li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li><li><span>Storage: </span>'+elem.specs.storage+' GB</li><li><span>OS: </span>'+elem.specs.os+'</li><li><span>Camera: </span>'+elem.specs.camera+' Mpx</li><li><span>Description: </span>'+elem.description+'</li></ul><p class="product-price">£'+elem.price +'</p></li>');
         });
+        $('.products-list').html(itm);
+
     });
 
 }
@@ -109,7 +77,8 @@ function resetForm() {
 
     //e.preventDefault();
     $('input:checkbox').prop("checked", false);
-
+    loadProducts();
+    /*
     var url = 'products.json';
     var a = {};
     var itm = '';
@@ -136,8 +105,9 @@ function resetForm() {
             // $('.products-list').append('<li><a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a><h2><a href="#">'+elem.name+'</a></h2><ul class="product-description"><li><span>Manufacturer: </span>'+elem.specs.manufacturer+'</li><li><span>Storage: </span>'+elem.specs.storage+' GB</li><li><span>OS: </span>'+elem.specs.os+'</li><li><span>Camera: </span>'+elem.specs.camera+' Mpx</li><li><span>Description: </span>'+elem.description+'</li></ul><p class="product-price">£'+elem.price +'</p></li>');
         });
         $('.products-list').html(itm);
-    });
 
+    });
+    */
 
 }
 
@@ -148,34 +118,45 @@ function filterP() {
     }).get(); // <----
     //console.log(checked);
 
-    var manufacturer = [];
-    var storage = [];
-    var os = [];
-    var camera = [];
-    var filterMan = [];
+    var filterManufacturer = [];
     var filterStorage = [];
     var filterOs = [];
-    var filterCam = [];
+    var filterCamera = [];
+    //var filterMan = [];
+    //var filterStorage = [];
+    //var filterOs = [];
+    //var filterCam = [];
 
     $.each($("input[name='manufacturer']:checked"), function(){
-        manufacturer.push($(this).val());
-        //filterMan.push($(this).val());
+        filterManufacturer.push($(this).val());
+
     });
     $.each($("input[name='storage']:checked"), function(){
-        storage.push($(this).val());
-        //filterStorage.push($(this).val());
+        filterStorage.push($(this).val());
+
     });
     $.each($("input[name='os']:checked"), function(){
-        os.push($(this).val());
-        //filterOs.push($(this).val());
+        filterOs.push($(this).val());
+
     });
     $.each($("input[name='camera']:checked"), function(){
-        camera.push($(this).val());
-        //filterCam.push($(this).val());
+        filterCamera.push($(this).val());
+
     });
 
-    console.log('Manufacturers: '+manufacturer.join(", ")+'; Storage: '+storage.join(", ")+'; OS: '+os.join(", ")+'; Camera: '+camera.join(", "));
+    console.log('Manufacturers: '+filterManufacturer.join(", ")+'; Storage: '+filterStorage.join(", ")+'; OS: '+filterOs.join(", ")+'; Camera: '+filterCamera.join(", "));
     //filterProducts(checkboxArray);
+
+    $('.item').each(function(){
+        var man = $(this).attr('data-man');
+        var storage = $(this).attr('data-storage');
+        var os = $(this).attr('data-os');
+        var camera = $(this).attr('data-camera');
+        if(jQuery.inArray(man,filterManufacturer) > -1)
+            $(this).fadeIn('slow');
+        else
+            $(this).hide();
+    });
 
 
     var url = 'products.json';
@@ -185,66 +166,58 @@ function filterP() {
         a = data;
         //console.log(a);
         var itm = '';
-        var items = $.grep(a, function (element, index) {
+        var items1 = $.grep(a, function (element, index) {
 
             //return element.specs.manufacturer == "Samsung";
-            if (manufacturer.indexOf(element.specs.manufacturer) > -1) {
-                return true;
-            }else{
-                return false;
-            }
+            return (filterManufacturer.indexOf(element.specs.manufacturer) !== -1) &&
+                (filterStorage.indexOf(element.specs.storage) !== -1) ;
+                //&&
+               // element.specs.os > 9 &&
+              //  element.specs.camera > 9;
 
-            if (storage.indexOf(element.specs.storage) > -1) {
-                return true;
-            }else{
-                return false;
-            }
-
-            if (os.indexOf(element.specs.os) > -1) {
-                return true;
-            }else{
-                return false;
-            }
-
-            if (camera.indexOf(element.specs.camera) > -1) {
-                return true;
-            }else{
-                return false;
-            }
         });
 
-        var items9 = a.filter(function (el) {
-            //return el.specs.manufacturer == "Samsung" &&
-            //   el.specs.storage >= 16 &&
+
+        var items = a.filter(function (el) {
+
+           // return el.specs.manufacturer == "Samsung" &&
+           //    el.specs.storage >= 16 &&
             //   el.specs.os == 'Android' &&
-            //   el.specs.camera > 13;
-            var result;
-            if(manufacturer.length != 0){
-                return manufacturer.indexOf(el.specs.manufacturer) !== -1;
-                //result = manufacturer.indexOf(el.specs.manufacturer) !== -1;
+          //     el.specs.camera > 13;
+
+            var result = true;
+            if(filterManufacturer.length != 0 && filterManufacturer.indexOf(el.specs.manufacturer) < 0){
+                //return manufacturer.indexOf(el.specs.manufacturer) !== -1;
+                result = false;
+                //result = (filterManufacturer.indexOf(el.specs.manufacturer) !== -1);
                 //result.push(~filterMan.indexOf(el.specs.manufacturer));
             }
-            if(storage.length != 0){
-                return storage.indexOf(el.specs.storage) !== -1;
-                //result += ' && '+ storage.indexOf(el.specs.storage) > -1;
+            if(filterStorage.length != 0 && filterStorage.indexOf(el.specs.storage) < 0){
+                //return storage.indexOf(el.specs.storage) !== -1;
+                result = false;
+                //result += ' && '+ (filterStorage.indexOf(el.specs.storage) !== -1);
                 //result.push(~filterStorage.indexOf(el.specs.storage));
             }
-            if(os.length != 0){
-                return os.indexOf(el.specs.os) !== -1;
-                //result += ' && '+ os.indexOf(el.specs.os) > -1;
+            if(filterOs.length != 0 && filterOs.indexOf(el.specs.os) < 0){
+                //return os.indexOf(el.specs.os) !== -1;
+                result = false;
+                //result += ' && '+ (filterOs.indexOf(el.specs.os) !== -1);
                 //result.push(~filterOs.indexOf(el.specs.os));
             }
-            if(camera.length != 0){
-                return camera.indexOf(el.specs.camera) > -1;
-                //result += ' && '+ camera.indexOf(el.specs.camera) !== -1;
+            if(filterCamera.length != 0 && filterCamera.indexOf(el.specs.os) < 0){
+                //return camera.indexOf(el.specs.camera) !== -1;
+                result = false;
+                //result += ' && '+ (filterCamera.indexOf(el.specs.camera) !== -1);
                 //result.push(~filterCam.indexOf(el.specs.camera));
             }
             //console.log(result);
             //var final = result.join("&&");
-            //return result;
+            return result;
+
             //filterStorage.indexOf(el.specs.storage) !== -1 &&
             //filterOs.indexOf(el.specs.os) !== -1 &&
             //filterCam.indexOf(el.specs.camera) !== -1;
+
         });
 
         /*const filterItems = (query) => {
@@ -253,6 +226,66 @@ function filterP() {
             );
         }
         */
+
+        //var items = filterStore( a, filter);
+
+        console.log('Array Length: '+ items.length);
+        if(items.length > 0){
+            // items is a new array of the matching products
+            $.each(items, function (i) {
+
+                //console.log(items[i].name);
+
+
+                itm += '<li>';
+                itm += '<a href="#" class="product-photo"><img src="'+items[i].image.small+'" height="130" alt="'+items[i]  .name+'"/></a>';
+                itm += '<h2><a href="#">'+items[i].name+'</a></h2>';
+                itm += '<ul class="product-description">';
+                itm += '<li><span>Manufacturer: </span>'+items[i].specs.manufacturer+'</li>';
+                itm += '<li><span>Storage: </span>'+items[i].specs.storage+' GB</li>';
+                itm += '<li><span>OS: </span>'+items[i].specs.os+'</li>';
+                itm += '<li><span>Camera: </span>'+items[i].specs.camera+' Mpx</li>';
+                itm += '<li><span>Description: </span>'+items[i].description+'</li>';
+                //itm += '';
+                itm += '</ul>';
+                itm += '<p class="product-price">£'+items[i].price +'</p>';
+                //itm += '';
+                itm += '</li>';
+
+            });
+
+            $('.products-list').html(itm);
+
+        }else{
+            var message = '<div class="alert alert-danger text-center">No matching items found</div>';
+            $('#notif').html(message);
+            $('.products-list').html(message);
+        }
+
+    });
+}
+function newFilter() {
+
+    var url = 'products.json';
+    var availableFilters = [];
+    var activeFilters = [];
+    var $filters = $('input:checkbox').each(function() {
+        var value = $(this).val();
+        availableFilters.push(value);
+        if ($(this).is(':checked')) {
+            activeFilters.push(value);
+        }
+    });
+    $.getJSON(url, function (data) {
+        a = data;
+        //console.log(a);
+        var itm = '';
+        var items = a.filter(function(item) {
+            return availableFilters.every(function(filter) {
+                return !!item[filter] === activeFilters.indexOf(filter) > -1;
+            });
+        });
+
         console.log('Array Length: '+ items.length);
         if(items.length > 0){
             // items is a new array of the matching products
@@ -284,7 +317,22 @@ function filterP() {
             var message = '<div class="alert alert-danger text-center">No matching items found</div>>';
             $('#notif').html(message);
         }
+    });
+}
 
+function filterStore(dataStore, filter) {
+    return $(dataStore).filter(function(index, item) {
+        for( var i in filter ) {
+            if(filter[i] instanceof Array){
+                console.log(filter[i],item[i]);
+                if($.inArray(parseInt(item[i],10),filter[i]) == -1)
+                    return null;
+                else
+                    continue;
+            }
+            if( ! item[i].toString().match( filter[i] ) ) return null;
+        }
+        return item;
     });
 }
 
