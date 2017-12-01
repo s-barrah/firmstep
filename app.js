@@ -52,11 +52,11 @@ function loadProducts(){
             itm += '<a href="#" class="product-photo"><img src="'+elem.image.small+'" height="130" alt="'+elem.name+'"/></a>';
             itm += '<h2><a href="#">'+elem.name+'</a></h2>';
             itm += '<ul class="product-description">';
-            itm += '<li><span>Manufacturer: </span><span data-man="'+elem.specs.manufacturer+'">'+elem.specs.manufacturer+'</span></li>';
-            itm += '<li><span>Storage: </span><span data-storage="'+elem.specs.storage+'">'+elem.specs.storage+'</span> GB</li>';
-            itm += '<li><span>OS: </span><span data-os="'+elem.specs.os+'">'+elem.specs.os+'</span></li>';
-            itm += '<li><span>Camera: </span><span data-camera="'+elem.specs.camera+'">'+elem.specs.camera+'</span> Mpx</li>';
-            itm += '<li><span>Description: </span data-description="'+elem.description+'"><span>'+elem.description+'</span></li>';
+            itm += '<li><span>Manufacturer: </span><span data-tag="manufacturer">'+elem.specs.manufacturer+'</span></li>';
+            itm += '<li><span>Storage: </span><span data-tag="storage">'+elem.specs.storage+'</span> GB</li>';
+            itm += '<li><span>OS: </span><span data-tag="os">'+elem.specs.os+'</span></li>';
+            itm += '<li><span>Camera: </span><span data-tag="camera">'+elem.specs.camera+'</span> Mpx</li>';
+            itm += '<li><span>Description: </span data-tag="description"><span>'+elem.description+'</span></li>';
             //itm += '';
             itm += '</ul>';
             itm += '<p class="product-price">£'+elem.price +'</p>';
@@ -113,17 +113,6 @@ function filterProducts() {
 
     console.log('Manufacturers: '+filterManufacturer.join(", ")+'; Storage: '+filterStorage.join(", ")+'; OS: '+filterOs.join(", ")+'; Camera: '+filterCamera.join(", "));
     //filterProducts(checkboxArray);
-
-    $('.item').each(function(){
-        var man = $(this).attr('data-man');
-        var storage = $(this).attr('data-storage');
-        var os = $(this).attr('data-os');
-        var camera = $(this).attr('data-camera');
-        if(jQuery.inArray(man,filterManufacturer) > -1)
-            $(this).fadeIn('slow');
-        else
-            $(this).hide();
-    });
 
 
     var url = 'products.json';
